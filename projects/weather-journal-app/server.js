@@ -26,6 +26,23 @@ app.get('/api/getData', (req, res) => {
     res.send(projectData);
 });
 
+//POST projectData
+app.post('/api/data', (req, res) => {
+    console.log('POST /api/data');
+
+    const newData = {
+        temperature: req.body.temperature,
+        date: req.body.date,
+        userResponse: req.body.userResponse,
+    };
+
+    console.log('data received: ', newData);
+    Object.assign(projectData, newData);
+
+    res.send('post ok');
+    
+});
+
 
 // Setup Server
 const PORT = 3000;
