@@ -19,6 +19,14 @@ app.use(cors());
 // Initialize the main project folder
 app.use(express.static('website'));
 
+/* Routes */
+//GET projectData
+app.get('/api/getData', (req, res) => {
+    console.log('/api/getData');
+    res.send(projectData);
+});
+
+
 // Setup Server
 const PORT = 3000;
 app.listen(PORT, () => {
