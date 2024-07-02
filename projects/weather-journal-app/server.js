@@ -21,8 +21,8 @@ app.use(express.static('website'));
 
 /* Routes */
 //GET projectData
-app.get('/api/getData', (req, res) => {
-    console.log('/api/getData');
+app.get('/api/data', (req, res) => {
+    console.log('/api/data');
     res.send(projectData);
 });
 
