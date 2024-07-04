@@ -1,18 +1,18 @@
 /* Global Variables */
-const BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
-const APPID = '8b8a50f0d80fea595dc71924ff6a54d9';
+const baseUrl = 'https://api.openweathermap.org/data/2.5/weather';
+const apiKey = '8b8a50f0d80fea595dc71924ff6a54d9';
 
 
 const processGenerateClick = () => {
     const zipCode = document.querySelector('#zip').value;
     
-    getWeather(BASE_URL, zipCode, APPID)
+    getWeather(zipCode)
       .then(weather => postData('/api/data', buildObj(weather))) 
       .then(postResponse => updateUI(postResponse))
       .catch(error => alert('Could not generate info', error));
 };
 
-const getWeather = async (baseUrl, zipCode, apiKey) => {
+const getWeather = async (zipCode) => {
     const url = `${baseUrl}?zip=${zipCode}&units=metric&APPID=${apiKey}`;
     const response = await fetch(url);
     const resJson = await response.json();
