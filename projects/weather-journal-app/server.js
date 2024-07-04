@@ -24,12 +24,14 @@ app.use(express.static('website'));
 //GET projectData
 app.get('/api/data', (req, res) => {
     console.log('GET /api/data');
+
     res.send(projectData);    
 });
 
 //POST projectData
 app.post('/api/data', (req, res) => {
     console.log('POST /api/data');
+
     const newData = {
         temperature: req.body.temperature,
         date: req.body.date,
