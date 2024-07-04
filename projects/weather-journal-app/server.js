@@ -3,6 +3,7 @@ const projectData = {};
 
 // Require Express to run server and routes
 const express = require('express');
+
 // Start up an instance of app
 const app = express();
 
@@ -22,14 +23,13 @@ app.use(express.static('website'));
 /* Routes */
 //GET projectData
 app.get('/api/data', (req, res) => {
-    console.log('/api/data');
-    res.send(projectData);
+    console.log('GET /api/data');
+    res.send(projectData);    
 });
 
 //POST projectData
 app.post('/api/data', (req, res) => {
     console.log('POST /api/data');
-
     const newData = {
         temperature: req.body.temperature,
         date: req.body.date,
@@ -40,7 +40,6 @@ app.post('/api/data', (req, res) => {
     Object.assign(projectData, newData);
 
     res.send('post ok');
-    
 });
 
 
