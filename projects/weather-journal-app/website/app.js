@@ -1,5 +1,60 @@
 /* Global Variables */
+const BASE_URL = 'https://api.openweathermap.org/data/2.5/weather';
+const APPID = '8b8a50f0d80fea595dc71924ff6a54d9';
 
-// Create a new date instance dynamically with JS
-let d = new Date();
-let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
+
+const processGenerateClick = () => {
+    const zipCode = document.querySelector('#zip').value;
+    
+    getWeather(BASE_URL, zipCode, APPID)
+      .then(weather => postData('/api/data', buildObj(weather))) 
+      .then(postResponse => updateUI(postResponse))
+      .catch(error => alert('Could not generate info', error));
+};
+
+const getWeather = async (baseUrl, zipCode, apiKey) => {
+    const url = `${baseUrl}?zip=${zipCode}&units=metric&APPID=a${apiKey}`;
+    const response = await fetch(url);
+    const resJson = await response.json();
+    if (!response.ok) {
+        console.log("Problem with openweathermap api", resJson);
+        throw new Error(response);
+    }
+    return resJson;
+};
+
+const postData = async (url, data) => {
+    const request = new Request(url, {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+    });
+
+    return fetch(request)
+            .then(response => response.json());
+};
+
+
+const buildObj = (weather) => {
+    const temperature = weather.main.temp;
+    // Create a new date instance dynamically with JS
+    const d = new Date();
+    const date = `${d.getMonth() + 1}.${d.getDate()}.${d.getFullYear()}`;
+    const userResponse = document.querySelector('#feelings').value;
+    const obj = { 
+        temperature: temperature,
+        date: date,
+        userResponse: userResponse,
+    };
+
+    return obj;
+};
+
+const updateUI = (data) => {
+    document.querySelector('#date').innerHTML = data.date;
+    document.querySelector('#temp').innerHTML = data.temperature;
+    document.querySelector('#content').innerHTML = data.userResponse;
+};
+
+document.querySelector('#generate').addEventListener('click', processGenerateClick);
