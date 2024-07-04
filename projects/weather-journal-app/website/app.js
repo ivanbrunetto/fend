@@ -8,7 +8,9 @@ const processGenerateClick = () => {
     
     getWeather(zipCode)
       .then(weather => postData(buildObj(weather))) 
-      .then(postResponse => updateUI(postResponse))
+      .then(postResponse => console.log(postResponse))
+      .then(() => retrieveData())
+      .then(data => updateUI(data))
       .catch(error => alert('Could not generate info', error));
 };
 
@@ -32,6 +34,11 @@ const postData = async (data) => {
     });
 
     return fetch(request)
+            .then(response => response.json());
+};
+
+const retrieveData = () => {
+    return fetch(dataEndpoint)
             .then(response => response.json());
 };
 
