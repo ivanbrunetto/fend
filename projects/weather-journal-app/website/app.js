@@ -3,6 +3,7 @@ const weatherEndpoint = 'https://api.openweathermap.org/data/2.5/weather';
 const apiKey = '8b8a50f0d80fea595dc71924ff6a54d9';
 const dataEndpoint = '/api/data';
 
+//Function to process the click event
 const processGenerateClick = () => {
     const zipCode = document.querySelector('#zip').value;
     
@@ -14,6 +15,7 @@ const processGenerateClick = () => {
       .catch(error => alert('Could not generate info', error));
 };
 
+//asynchronouus function to get weather info
 const getWeather = async (zipCode) => {
     const url = `${weatherEndpoint}?zip=${zipCode}&units=imperial&APPID=${apiKey}`;
     const response = await fetch(url);
@@ -25,6 +27,7 @@ const getWeather = async (zipCode) => {
     return resJson;
 };
 
+//asynchronous function to post data to app server
 const postData = async (data) => {
     const request = new Request(dataEndpoint, {
         method: 'POST',
@@ -37,11 +40,13 @@ const postData = async (data) => {
             .then(response => response.json());
 };
 
+//asynchronous function to get data from app server
 const retrieveData = () => {
     return fetch(dataEndpoint)
             .then(response => response.json());
 };
 
+//aux function to build the object to be sent to app server
 const buildObj = (weather) => {
     const temperature = Math.round(weather.main.temp);
     // Create a new date instance dynamically with JS
@@ -57,10 +62,12 @@ const buildObj = (weather) => {
     return obj;
 };
 
+//update the UI with the data values
 const updateUI = (data) => {
     document.querySelector('#date').innerHTML = data.date;
     document.querySelector('#temp').innerHTML = data.temperature;
     document.querySelector('#content').innerHTML = data.userResponse;
 };
 
+//add the click event listener
 document.querySelector('#generate').addEventListener('click', processGenerateClick);
