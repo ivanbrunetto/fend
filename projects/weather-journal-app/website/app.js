@@ -64,9 +64,9 @@ const buildObj = (weather) => {
 
 //update the UI with the data values
 const updateUI = (data) => {
-    document.querySelector('#date').innerHTML = data.date;
-    document.querySelector('#temp').innerHTML = data.temperature;
-    document.querySelector('#content').innerHTML = data.userResponse;
+    document.querySelector('#date').innerHTML = `Date: ${data.date}`;
+    document.querySelector('#temp').innerHTML = `Temp: ${data.temperature}`;
+    document.querySelector('#content').innerHTML = `User feelings: ${data.userResponse}`;
 };
 
 //add the click event listener
