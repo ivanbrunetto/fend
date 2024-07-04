@@ -1,19 +1,19 @@
 /* Global Variables */
-const baseUrl = 'https://api.openweathermap.org/data/2.5/weather';
+const weatherEndpoint = 'https://api.openweathermap.org/data/2.5/weather';
 const apiKey = '8b8a50f0d80fea595dc71924ff6a54d9';
-
+const dataEndpoint = '/api/data';
 
 const processGenerateClick = () => {
     const zipCode = document.querySelector('#zip').value;
     
     getWeather(zipCode)
-      .then(weather => postData('/api/data', buildObj(weather))) 
+      .then(weather => postData(buildObj(weather))) 
       .then(postResponse => updateUI(postResponse))
       .catch(error => alert('Could not generate info', error));
 };
 
 const getWeather = async (zipCode) => {
-    const url = `${baseUrl}?zip=${zipCode}&units=imperial&APPID=${apiKey}`;
+    const url = `${weatherEndpoint}?zip=${zipCode}&units=imperial&APPID=${apiKey}`;
     const response = await fetch(url);
     const resJson = await response.json();
     if (!response.ok) {
@@ -23,8 +23,8 @@ const getWeather = async (zipCode) => {
     return resJson;
 };
 
-const postData = async (url, data) => {
-    const request = new Request(url, {
+const postData = async (data) => {
+    const request = new Request(dataEndpoint, {
         method: 'POST',
         credentials: 'same-origin',
         headers: { 'Content-Type': 'application/json' },
@@ -34,7 +34,6 @@ const postData = async (url, data) => {
     return fetch(request)
             .then(response => response.json());
 };
-
 
 const buildObj = (weather) => {
     const temperature = Math.round(weather.main.temp);
