@@ -13,7 +13,7 @@ const processGenerateClick = () => {
 };
 
 const getWeather = async (baseUrl, zipCode, apiKey) => {
-    const url = `${baseUrl}?zip=${zipCode}&units=metric&APPID=a${apiKey}`;
+    const url = `${baseUrl}?zip=${zipCode}&units=metric&APPID=${apiKey}`;
     const response = await fetch(url);
     const resJson = await response.json();
     if (!response.ok) {
