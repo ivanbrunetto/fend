@@ -13,7 +13,7 @@ const processGenerateClick = () => {
 };
 
 const getWeather = async (zipCode) => {
-    const url = `${baseUrl}?zip=${zipCode}&units=metric&APPID=${apiKey}`;
+    const url = `${baseUrl}?zip=${zipCode}&units=imperial&APPID=${apiKey}`;
     const response = await fetch(url);
     const resJson = await response.json();
     if (!response.ok) {
@@ -37,7 +37,7 @@ const postData = async (url, data) => {
 
 
 const buildObj = (weather) => {
-    const temperature = weather.main.temp;
+    const temperature = Math.round(weather.main.temp);
     // Create a new date instance dynamically with JS
     const d = new Date();
     const date = `${d.getMonth() + 1}.${d.getDate()}.${d.getFullYear()}`;
