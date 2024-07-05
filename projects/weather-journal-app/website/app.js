@@ -9,10 +9,12 @@ const processGenerateClick = () => {
     
     getWeather(zipCode)
       .then(weather => postData(buildObj(weather))) 
-      .then(postResponse => console.log(postResponse))
       .then(() => retrieveData())
       .then(data => updateUI(data))
-      .catch(error => alert('Could not generate info', error));
+      .catch(error => {
+        console.log(error);
+        alert('Could not generate info');
+      });
 };
 
 //asynchronouus function to get weather info
@@ -21,7 +23,6 @@ const getWeather = async (zipCode) => {
     const response = await fetch(url);
     const resJson = await response.json();
     if (!response.ok) {
-        console.log("Problem with openweathermap api", resJson);
         throw new Error(response);
     }
     return resJson;
@@ -36,8 +37,7 @@ const postData = async (data) => {
         body: JSON.stringify(data),
     });
 
-    return fetch(request)
-            .then(response => response.json());
+    return fetch(request);
 };
 
 //asynchronous function to get data from app server
