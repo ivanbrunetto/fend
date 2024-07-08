@@ -1,6 +1,5 @@
 /* Global Variables */
-const weatherEndpoint = 'https://api.openweathermap.org/data/2.5/weather';
-const apiKey = '8b8a50f0d80fea595dc71924ff6a54d9';
+const weatherEndpoint = '/api/weather';
 const dataEndpoint = '/api/data';
 
 //Function to process the click event
@@ -12,18 +11,18 @@ const processGenerateClick = () => {
       .then(() => retrieveData())
       .then(data => updateUI(data))
       .catch(error => {
-        console.log(error);
+        console.log(error.message);
         alert('Could not generate info');
       });
 };
 
 //asynchronouus function to get weather info
 const getWeather = async (zipCode) => {
-    const url = `${weatherEndpoint}?zip=${zipCode}&units=imperial&APPID=${apiKey}`;
+    const url = `${weatherEndpoint}?zip=${zipCode}`;
     const response = await fetch(url);
     const resJson = await response.json();
     if (!response.ok) {
-        throw new Error(response);
+        throw new Error(resJson.message);
     }
     return resJson;
 };

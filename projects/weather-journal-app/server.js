@@ -1,6 +1,10 @@
 // Setup empty JS object to act as endpoint for all routes
 const projectData = {};
 
+const weatherEndpoint = 'https://api.openweathermap.org/data/2.5/weather';
+const dataEndpoint = '/api/data';
+require('dotenv').config();
+
 // Require Express to run server and routes
 const express = require('express');
 
@@ -21,6 +25,29 @@ app.use(cors());
 app.use(express.static('website'));
 
 /* Routes */
+//GET weather
+app.get('/api/weather', (req, res) => {
+    console.log('GET /api/weather');
+    const weather = '';
+    getWeather(req.query.zip)
+      .then(data => res.send(data))
+      .catch(error => {
+        console.log(error.message);
+        res.status(500).send({ message: `could not get weather: ${error.message}`});
+      });
+});
+
+const getWeather = async (zipCode) => {
+    const url = `${weatherEndpoint}?zip=${zipCode}&units=imperial&APPID=${process.env.apiKey}`;
+    const response = await fetch(url);
+    const resJson = await response.json();
+    if (!response.ok) {
+        throw new Error(resJson.message);
+    }
+    
+    return resJson;
+};
+
 //GET projectData
 app.get('/api/data', (req, res) => {
     console.log('GET /api/data');
